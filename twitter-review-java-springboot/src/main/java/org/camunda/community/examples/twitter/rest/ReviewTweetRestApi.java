@@ -19,7 +19,7 @@ public class ReviewTweetRestApi {
     @PutMapping("/tweet")
     public ResponseEntity<String> startTweetReviewProcess(ServerWebExchange exchange) {
         // TODO: add data to the process instance from REST request
-        String reference = startTweetReviewProcess("bernd", "Hello World", "Zeebot");
+        String reference = startTweetReviewProcess("Dhurkee", "Hello World", "Dhoni");
 
         // And just return something for the sake of the example
         return ResponseEntity

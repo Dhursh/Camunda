@@ -26,6 +26,7 @@ public class TwitterWorker {
     @JobWorker( type = "send-rejection")
     public void sendRejection(@VariablesAsType TwitterProcessVariables variables) throws Exception {
         // same thing as above, do data transformation and delegate to real business code / service
+        System.out.println("Tweet is Rejected:"+variables.getTweet());
     }
 
 }
