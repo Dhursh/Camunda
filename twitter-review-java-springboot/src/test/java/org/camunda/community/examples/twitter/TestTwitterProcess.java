@@ -12,6 +12,7 @@ import org.camunda.community.examples.twitter.business.DuplicateTweetException;
 import org.camunda.community.examples.twitter.business.TwitterService;
 import org.camunda.community.examples.twitter.process.TwitterProcessVariables;
 import org.camunda.community.examples.twitter.rest.ReviewTweetRestApi;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,8 @@ public class TestTwitterProcess {
             .variables(variables) //
             .send().join();
 
+        waitForUserTaskAndComplete("user_task_post_tweet", Collections.singletonMap("approved", true));
+
         // And then retrieve the UserTask and complete it with 'approved = true'
         waitForUserTaskAndComplete("user_task_review_tweet", Collections.singletonMap("approved", true));
 
@@ -87,6 +90,8 @@ public class TestTwitterProcess {
                 .variables(variables) //
                 .send().join();
 
+        waitForUserTaskAndComplete("user_task_post_tweet", Collections.singletonMap("approved", true));
+
         waitForUserTaskAndComplete("user_task_review_tweet", Collections.singletonMap("approved", false));
 
         waitForProcessInstanceCompleted(processInstance);
@@ -108,7 +113,7 @@ public class TestTwitterProcess {
                 .bpmnProcessId("TwitterDemoProcess").latestVersion() //
                 .variables(variables) //
                 .send().join();
-
+        waitForUserTaskAndComplete("user_task_post_tweet", Collections.singletonMap("approved", true));
         waitForUserTaskAndComplete("user_task_review_tweet", Collections.singletonMap("approved", true));
         waitForProcessInstanceHasPassedElement(processInstance, "boundary_event_tweet_duplicated");
         waitForUserTaskAndComplete("user_task_handle_duplicate", new HashMap<>());
@@ -156,6 +161,7 @@ public class TestTwitterProcess {
 
         // Let the workflow engine do whatever it needs to do
         // And then retrieve the UserTask and complete it with 'approved = true'
+        waitForUserTaskAndComplete("user_task_post_tweet", Collections.singletonMap("approved", true));
         waitForUserTaskAndComplete("user_task_review_tweet", Collections.singletonMap("approved", true));
 
         waitForProcessInstanceCompleted(processInstance.getProcessInstanceKey());
